@@ -90,7 +90,7 @@ func main() {
 	}
 
 	// Выводим найденные текстовые объекты
-	for i, obj := range textObjects {
+	for _, obj := range textObjects {
 		fmt.Printf("Type: %s, Text: %s, X: %f, Y: %f, Z: %f\n",
 			obj.Type, obj.Text, obj.X, obj.Y, obj.Z)
 	}
