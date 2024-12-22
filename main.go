@@ -40,7 +40,7 @@ func main() {
 	// create a writer
 	writer := bufio.NewWriter(fileW)
 
-	// read line by line
+	// read line by line and write to file
 	for scanner.Scan() {
 		line := scanner.Text()
 
@@ -49,12 +49,19 @@ func main() {
 			os.Remove(currentTime + ".dxf")
 			log.Fatal("Error writing to file:", err)
 		}
-
 	}
 
 	// check for errors
 	if err := scanner.Err(); err != nil {
 		fmt.Println("Error reading file:", err)
+	}
+
+	/*
+		Убедиться, что все данные из буфера записаны в файл
+		+ обработка ошибок для writer.Flush()
+	*/
+	if err := writer.Flush(); err != nil {
+		log.Fatal("Error flushing writer:", err)
 	}
 
 }
