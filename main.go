@@ -22,7 +22,7 @@ type RW struct {
 func main() {
 
 	var rw RW
-	rw.name = "SBS07H"
+	rw.name = "SBS-07-H"
 
 	// get current time
 	rw.currentTime = time.Now().Format("2006-01-02 15:04:05")
@@ -41,7 +41,7 @@ func main() {
 	defer fileR.Close()
 
 	// create fileW
-	fileW, err := os.Create(rw.name + "_" + rw.currentTime + ".dxf")
+	fileW, err := os.Create(rw.name + "-" + rw.currentTime + ".dxf")
 	if err != nil {
 		log.Fatal(err)
 		return
