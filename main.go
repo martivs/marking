@@ -2,8 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
-	// "fmt"
 	"log"
 	"os"
 	"strings"
@@ -66,7 +64,7 @@ func work(rw *RW) {
 			writeLine(rw, line)
 		} else {
 			lines := readTEXT(rw)
-			fmt.Println(lines)
+			writeTEXT(rw, lines, 3.0)
 		}
 	}
 
@@ -112,4 +110,19 @@ func readTEXT(rw *RW) []string {
 	}
 
 	return lines
+}
+
+func writeTEXT(rw *RW, lines []string, delta float64) {
+
+	for i, line := range lines {
+		switch {
+		case i > 0 && lines[i-1] == "  1":
+			writeLine(rw, rw.name)
+		case i > 0 && lines[i-1] == " 21":
+			writeLine(rw, line)
+		default:
+			writeLine(rw, line)
+		}
+	}
+
 }
