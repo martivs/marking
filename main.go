@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -16,6 +17,7 @@ type RW struct {
 	writer      *bufio.Writer
 	currentTime string
 	name        string
+	count       int
 }
 
 func main() {
@@ -64,9 +66,11 @@ func work(rw *RW) {
 		if line != "TEXT" {
 			writeLine(rw, line)
 		} else {
+			rw.count++
 			lines := readTEXT(rw)
 			writeTEXT(rw, lines, "NAME")
 			writeTEXT(rw, lines, "TIME")
+			fmt.Println(rw.count)
 		}
 	}
 
@@ -117,13 +121,14 @@ func readTEXT(rw *RW) []string {
 func writeTEXT(rw *RW, lines []string, flag string) {
 
 	for i, line := range lines {
+
 		switch {
 		case i > 0 && lines[i-1] == "  1":
 			if flag == "NAME" {
 				writeLine(rw, rw.name)
 			}
 			if flag == "TIME" {
-				writeLine(rw, rw.currentTime)
+				writeLine(rw, serNum(rw))
 			}
 		case i > 0 && lines[i-1] == " 21":
 			if flag == "NAME" {
@@ -133,7 +138,7 @@ func writeTEXT(rw *RW, lines []string, flag string) {
 				writeLine(rw, delta(line, -3.0))
 			}
 		case i > 0 && lines[i-1] == " 40":
-			writeLine(rw, "3.0")
+			writeLine(rw, "2.0")
 		default:
 			writeLine(rw, line)
 		}
@@ -148,4 +153,8 @@ func delta(line string, delta float64) string {
 	}
 	num += delta
 	return strconv.FormatFloat(num, 'f', -1, 64)
+}
+
+func serNum(rw *RW) string {
+	return rw.currentTime + strconv.Itoa(rw.count)
 }
