@@ -64,7 +64,7 @@ func work(rw *RW) {
 			writeLine(rw, line)
 		} else {
 			lines := readTEXT(rw)
-			writeTEXT(rw, lines, 3.0)
+			writeTEXT(rw, lines, "TIME")
 		}
 	}
 
@@ -112,14 +112,21 @@ func readTEXT(rw *RW) []string {
 	return lines
 }
 
-func writeTEXT(rw *RW, lines []string, delta float64) {
+func writeTEXT(rw *RW, lines []string, flag string) {
 
 	for i, line := range lines {
 		switch {
 		case i > 0 && lines[i-1] == "  1":
-			writeLine(rw, rw.name)
+			if flag == "NAME" {
+				writeLine(rw, rw.name)
+			}
+			if flag == "TIME" {
+				writeLine(rw, rw.currentTime)
+			}
 		case i > 0 && lines[i-1] == " 21":
 			writeLine(rw, line)
+		case i > 0 && lines[i-1] == " 40":
+			writeLine(rw, "3.0")
 		default:
 			writeLine(rw, line)
 		}
