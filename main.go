@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -70,7 +69,6 @@ func work(rw *RW) {
 			lines := readTEXT(rw)
 			writeTEXT(rw, lines, "NAME")
 			writeTEXT(rw, lines, "TIME")
-			fmt.Println(rw.count)
 		}
 	}
 
@@ -138,7 +136,7 @@ func writeTEXT(rw *RW, lines []string, flag string) {
 				writeLine(rw, delta(line, -3.0))
 			}
 		case i > 0 && lines[i-1] == " 40":
-			writeLine(rw, "2.0")
+			writeLine(rw, "2.5")
 		default:
 			writeLine(rw, line)
 		}
@@ -156,5 +154,14 @@ func delta(line string, delta float64) string {
 }
 
 func serNum(rw *RW) string {
-	return rw.currentTime + strconv.Itoa(rw.count)
+
+	var res string
+
+	if rw.count < 10 {
+		res = rw.currentTime + "0" + strconv.Itoa(rw.count)
+	} else {
+		res = rw.currentTime + strconv.Itoa(rw.count)
+	}
+
+	return res
 }
