@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -64,6 +65,7 @@ func work(rw *RW) {
 			writeLine(rw, line)
 		} else {
 			lines := readTEXT(rw)
+			writeTEXT(rw, lines, "NAME")
 			writeTEXT(rw, lines, "TIME")
 		}
 	}
@@ -124,12 +126,26 @@ func writeTEXT(rw *RW, lines []string, flag string) {
 				writeLine(rw, rw.currentTime)
 			}
 		case i > 0 && lines[i-1] == " 21":
-			writeLine(rw, line)
+			if flag == "NAME" {
+				writeLine(rw, delta(line, 3.0))
+			}
+			if flag == "TIME" {
+				writeLine(rw, delta(line, -3.0))
+			}
 		case i > 0 && lines[i-1] == " 40":
 			writeLine(rw, "3.0")
 		default:
 			writeLine(rw, line)
 		}
 	}
+}
 
+func delta(line string, delta float64) string {
+
+	num, err := strconv.ParseFloat(line, 64)
+	if err != nil {
+		log.Fatal("Error converting string to float:", err)
+	}
+	num += delta
+	return strconv.FormatFloat(num, 'f', -1, 64)
 }
