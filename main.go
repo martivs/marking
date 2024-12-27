@@ -40,7 +40,7 @@ func main() {
 	defer fileR.Close()
 
 	// create fileW
-	fileW, err := os.Create(rw.name + "-" + rw.currentTime + ".dxf")
+	fileW, err = os.Create(rw.name + "-" + rw.currentTime + ".dxf")
 	if err != nil {
 		log.Fatal(err)
 	}
