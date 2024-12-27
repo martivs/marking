@@ -35,7 +35,6 @@ func main() {
 	fileR, err := os.Open("patt.dxf")
 	if err != nil {
 		log.Fatal(err)
-		return
 	}
 	rw.fileR = fileR
 	defer fileR.Close()
@@ -44,7 +43,6 @@ func main() {
 	fileW, err := os.Create(rw.name + "-" + rw.currentTime + ".dxf")
 	if err != nil {
 		log.Fatal(err)
-		return
 	}
 	rw.fileW = fileW
 	defer fileW.Close()
