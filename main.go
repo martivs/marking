@@ -31,25 +31,25 @@ func main() {
 	rw.currentTime = strings.ReplaceAll(rw.currentTime, " ", "")
 	rw.currentTime = rw.currentTime[2 : len(rw.currentTime)-2]
 
+	var err error
+
 	// open fileR
-	fileR, err := os.Open("patt.dxf")
+	rw.fileR, err = os.Open("patt.dxf")
 	if err != nil {
 		log.Fatal(err)
 	}
-	rw.fileR = fileR
-	defer fileR.Close()
+	defer rw.fileR.Close()
 
 	// create fileW
-	fileW, err = os.Create(rw.name + "-" + rw.currentTime + ".dxf")
+	rw.fileW, err = os.Create(rw.name + "-" + rw.currentTime + ".dxf")
 	if err != nil {
 		log.Fatal(err)
 	}
-	rw.fileW = fileW
-	defer fileW.Close()
+	defer rw.fileW.Close()
 
 	// create scanner & writer
-	rw.scanner = bufio.NewScanner(fileR)
-	rw.writer = bufio.NewWriter(fileW)
+	rw.scanner = bufio.NewScanner(rw.fileR)
+	rw.writer = bufio.NewWriter(rw.fileW)
 
 	// work
 	work(&rw)
